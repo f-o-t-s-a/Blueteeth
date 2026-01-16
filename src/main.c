@@ -1,4 +1,5 @@
 #include "gtk/gtk.h"
+#include "../include/app.h"
 
 GtkBuilder* builder;
 
@@ -21,10 +22,6 @@ static void load_css() {
 	g_object_unref(provider);
 }
 
-static void on_button_clicked(GtkWidget* button, gpointer data) {
-	g_print("Turn on to Connect !!..");
-}
-
 static void activate(GtkApplication* app, gpointer user_data) {
 	GtkWidget* window;
 	GError* error = NULL;
@@ -33,7 +30,7 @@ static void activate(GtkApplication* app, gpointer user_data) {
 
 	builder = gtk_builder_new();
 	if (!gtk_builder_add_from_file(builder, "./assets/main.glade", &error)) {
-		g_warning("Could not load UI file: %s ..", error->message);
+		g_warning("❌ Could not load UI file: %s ..", error->message);
 		g_clear_error(&error);
 		return;
 	}

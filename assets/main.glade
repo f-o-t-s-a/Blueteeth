@@ -4,6 +4,8 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkApplicationWindow" id="wnd_primary">
     <property name="name">wnd_primary</property>
+    <property name="width-request">600</property>
+    <property name="height-request">400</property>
     <property name="can-focus">False</property>
     <property name="gravity">center</property>
     <child>
@@ -43,7 +45,6 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
-                    <property name="icon-size">2</property>
                     <property name="stack">stack_device_list</property>
                   </object>
                   <packing>
@@ -59,7 +60,16 @@
                     <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <placeholder/>
+                      <object class="GtkToolbar" id="tool_bar_device_list">
+                        <property name="name">tool_bar_device_list</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <object class="GtkStack" id="stack_device_list">
@@ -67,19 +77,43 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <child>
-                          <object class="GtkListBox" id="list_box_device_list">
-                            <property name="name">list_box_device_list</property>
+                          <object class="GtkListBox" id="list_box_available_device_list">
+                            <property name="name">list_box_available_device_list</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                           </object>
                           <packing>
-                            <property name="name">list_box_device_list</property>
+                            <property name="name">list_box_available_device_list</property>
                             <property name="title" translatable="yes">available devices</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkListBox" id="list_box_paired_device_list">
+                            <property name="name">list_box_paired_device_list</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="name">list_box_paired_device_list</property>
+                            <property name="title" translatable="yes">paired devices</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkListBox" id="list_box_connected_device_list">
+                            <property name="name">list_box_connected_device_list</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="name">list_box_connected_device_list</property>
+                            <property name="title" translatable="yes">connected devices</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -98,7 +132,48 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="box_manage_devices">
+                <property name="name">box_manage_devices</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">2</property>
+                <child>
+                  <object class="GtkToolbar" id="tool_bar_manage_connections">
+                    <property name="name">tool_bar_manage_connections</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box_manage_connections">
+                    <property name="name">box_manage_connections</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">box_manage_devices</property>
+                <property name="title" translatable="yes">connections</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
