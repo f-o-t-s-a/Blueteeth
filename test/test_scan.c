@@ -2,29 +2,25 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include "bluetooth/device_manager.h"
+#include "device_manager.h"
 
 static DeviceManager* manager = NULL;
 static volatile int running = 1;
 
 void signal_handler(int sig) {
-    (void)sig;  // Mark parameter as unused
     running = 0;
     printf("\nShutting down...\n");
 }
 
 void on_device_discovered(BluetoothDevice* device, void* user_data) {
-    (void)user_data;  // Mark parameter as unused
     printf("Device: %s (%s) - RSSI: %d\n", device->alias, device->address, device->rssi);
 }
 
 void on_scan_status(bool scanning, void* user_data) {
-    (void)user_data;  // Mark parameter as unused
     printf("Scan %s\n", scanning ? "started" : "stopped");
 }
 
-void on_error(ErrorCode error __attribute__((unused)), const char* message, void* user_data) {
-    (void)user_data;  // Mark parameter as unused
+void on_error(ErrorCode error, const char* message, void* user_data) {
     fprintf(stderr, "Error: %s\n", message);
 }
 
