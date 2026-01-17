@@ -42,7 +42,7 @@ int main() {
     
     manager = device_manager_create(&config);
     if (!manager) {
-        fprintf(stderr, "Failed to create device manager\n");
+        fprintf(stderr, "Failed to create device manager..\n");
         return 1;
     }
     
@@ -54,27 +54,44 @@ int main() {
         return 1;
     }
     
-    printf("Scanning for 10 seconds...\n");
-    sleep(10);
+    printf("Scanning for 10 seconds (Press Ctrl+C to stop early)...\n");
     
-    device_manager_stop_discovery(manager);
-    printf("Scan stopped\n");
+    // Sleep with interrupt checking
+    for (int i = 0; i < 10 && running; i++) {
+        sleep(1);
+    }
+    
+    if (running) {
+        device_manager_stop_discovery(manager);
+        printf("Scan stopped..\n");
+    } else {
+        printf("Scan interrupted by user..\n");
+    }
     
     // List all discovered devices
     printf("\nDiscovered devices:\n");
     GList* devices = device_manager_get_devices(manager);
-    GList* iter = devices;
     
-    while (iter) {
-        BluetoothDevice* device = (BluetoothDevice*)iter->data;
-        printf("- %s (%s) Type: %d RSSI: %d\n", 
-               device->alias, device->address, device->type, device->rssi);
-        iter = iter->next;
+    if (devices == NULL) {
+        printf("No devices found..\n");
+    } else {
+        GList* iter = devices;
+        int count = 0;
+        
+        while (iter) {
+            BluetoothDevice* device = (BluetoothDevice*)iter->data;
+            printf("- %s (%s) Type: %d RSSI: %d\n", 
+                   device->alias, device->address, device->type, device->rssi);
+            iter = iter->next;
+            count++;
+        }
+        
+        printf("\nTotal devices found: %d\n", count);
+        g_list_free(devices);
     }
     
-    g_list_free(devices);
     device_manager_destroy(manager);
     
-    printf("Done!\n");
+    printf("Done!!..\n");
     return 0;
 }
