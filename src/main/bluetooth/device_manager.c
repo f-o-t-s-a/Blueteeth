@@ -152,7 +152,7 @@ static char* get_default_adapter(DeviceManager* manager) {
     
     if (!msg) {
         if (manager->config.on_error) {
-            manager->config.on_error(ERR_DBUS, "Failed to create DBus message", 
+            manager->config.on_error(ERR_DBUS, "Failed to create DBus message..", 
                                    manager->config.user_data);
         }
         return NULL;
@@ -214,7 +214,7 @@ static ErrorCode bluez_start_discovery(DeviceManager* manager) {
     
     if (!manager->adapter_path) {
         if (manager->config.on_error) {
-            manager->config.on_error(ERR_BLUEZ, "No Bluetooth adapter found", 
+            manager->config.on_error(ERR_BLUEZ, "No Bluetooth adapter found..", 
                                    manager->config.user_data);
         }
         return ERR_BLUEZ;
@@ -229,7 +229,7 @@ static ErrorCode bluez_start_discovery(DeviceManager* manager) {
     
     if (!msg) {
         if (manager->config.on_error) {
-            manager->config.on_error(ERR_DBUS, "Failed to create DBus message", 
+            manager->config.on_error(ERR_DBUS, "Failed to create DBus message..", 
                                    manager->config.user_data);
         }
         return ERR_DBUS;
@@ -265,7 +265,7 @@ static ErrorCode bluez_stop_discovery(DeviceManager* manager) {
     
     if (!msg) {
         if (manager->config.on_error) {
-            manager->config.on_error(ERR_DBUS, "Failed to create DBus message", 
+            manager->config.on_error(ERR_DBUS, "Failed to create DBus message..", 
                                    manager->config.user_data);
         }
         return ERR_DBUS;
@@ -381,7 +381,7 @@ static void handle_properties_changed(DeviceManager* manager, DBusMessage* messa
             
             g_hash_table_insert(manager->devices, strdup(address), device);
             
-            printf("Debug: New device found via PropertiesChanged: %s (%s)\n", 
+            printf("Debug: New device found via PropertiesChanged: %s (%s)\n ..", 
                    device->alias, device->address);
             
             if (manager->config.on_discovered) {
@@ -441,7 +441,7 @@ static void handle_interfaces_added(DeviceManager* manager, DBusMessage* message
                 if (device) {
                     // Validate device has at least an address
                     if (strlen(device->address) == 0) {
-                        fprintf(stderr, "Debug: Skipping device with no address\n");
+                        fprintf(stderr, "Debug: Skipping device with no address..\n");
                         free(device);
                         break;
                     }
@@ -477,7 +477,7 @@ static void handle_interfaces_added(DeviceManager* manager, DBusMessage* message
 static void* dbus_monitor_thread(void* arg) {
     DeviceManager* manager = (DeviceManager*)arg;
     
-    printf("Debug: DBus monitoring thread started\n");
+    printf("Debug: DBus monitoring thread started..\n");
     
     while (manager->running) {
         // Process DBus events with short timeout
@@ -489,20 +489,20 @@ static void* dbus_monitor_thread(void* arg) {
             const char* member = dbus_message_get_member(msg);
             
             if (interface && member) {
-                printf("Debug: Received signal - Interface: %s, Member: %s\n", interface, member);
+                printf("Debug: Received signal - Interface: %s, Member: %s ..\n", interface, member);
             }
             
             // Check for InterfacesAdded signal
             if (dbus_message_is_signal(msg, "org.freedesktop.DBus.ObjectManager", 
                                       "InterfacesAdded")) {
-                printf("Debug: Processing InterfacesAdded signal\n");
+                printf("Debug: Processing InterfacesAdded signal..\n");
                 handle_interfaces_added(manager, msg);
             }
             
             // Check for PropertiesChanged signal on devices
             else if (dbus_message_is_signal(msg, "org.freedesktop.DBus.Properties", 
                                           "PropertiesChanged")) {
-                printf("Debug: Processing PropertiesChanged signal\n");
+                printf("Debug: Processing PropertiesChanged signal..\n");
                 handle_properties_changed(manager, msg);
             }
             
@@ -516,7 +516,7 @@ static void* dbus_monitor_thread(void* arg) {
         nanosleep(&ts, NULL);
     }
     
-    printf("Debug: DBus monitoring thread exiting\n");
+    printf("Debug: DBus monitoring thread exiting..\n");
     return NULL;
 }
 
@@ -575,8 +575,8 @@ DeviceManager* device_manager_create(const DeviceManagerConfig* config) {
     // Get default adapter
     manager->adapter_path = get_default_adapter(manager);
     if (!manager->adapter_path) {
-        fprintf(stderr, "Error: No Bluetooth adapter found!\n");
-        fprintf(stderr, "Make sure Bluetooth is enabled and bluetoothd is running.\n");
+        fprintf(stderr, "Error: No Bluetooth adapter found!!..\n");
+        fprintf(stderr, "Make sure Bluetooth is enabled and bluetoothd is running..\n");
     } else {
         printf("Found Bluetooth adapter: %s\n", manager->adapter_path);
     }

@@ -14,7 +14,9 @@ typedef enum {
     ERR_THREAD = -5,
     ERR_IPC = -6,
     ERR_NO_DEVICE = -7,
-    ERR_CONNECTION = -8
+    ERR_CONNECTION = -8,
+    ERR_PAIRING = -9,
+    ERR_TIMEOUT = -10        // Added for timeout errors..
 } ErrorCode;
 
 /* Device types */
